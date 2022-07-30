@@ -20,5 +20,7 @@ fi
 
 wget -q "http://$ADDR/$CHECKER_FILENAME" -O - > "$CHECKER_FILENAME"
 
-#MOST_RECENT=$()
-
+TARGET_FILENAME=$(cat $CHECKER_FILENAME).epub
+if [[ ! -f "$TARGET_FILENAME" ]]; then
+    wget -q "http://$ADDR/$TARGET_FILENAME"
+fi
