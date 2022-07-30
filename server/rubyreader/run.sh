@@ -8,6 +8,8 @@ cd "$(dirname "$0")"
 
 #DT=$(date "+%Y%m%d_%H%M")
 
+mkdir -p "$BUILD_DIR"
+
 ruby main.rb
 
 ebook-convert "$BUILD_DIR"/index.html "$BUILD_DIR"/"$OUTF"
