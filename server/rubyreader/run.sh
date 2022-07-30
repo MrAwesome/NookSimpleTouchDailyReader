@@ -12,7 +12,9 @@ mkdir -p "$BUILD_DIR"
 
 ruby main.rb
 
-ebook-convert "$BUILD_DIR"/index.html "$BUILD_DIR"/"$OUTF"
+for format in $FORMATS; do
+    ebook-convert "$BUILD_DIR"/index.html "$BUILD_DIR"/"$OUTF.${format}"
+done
 
 #adb connect 192.168.1.97:5555
 #adb shell 'rm /media/My\ Files/Books/today.epub' || true

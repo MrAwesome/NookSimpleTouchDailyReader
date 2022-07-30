@@ -10,8 +10,11 @@ cd "$(dirname "$0")"
 
 DT=$(date "+%Y%m%d_%H%M")
 
-DATEFILENAME="${DT}.epub"
+for format in $FORMATS; do
+    DATEFILENAME="${DT}.${format}"
 
-cp rubyreader/"$BUILD_DIR"/"$OUTF" ~/public_html/"$DATEFILENAME"
-ln -sf "$DATEFILENAME" ~/public_html/"$OUTF"
+    cp rubyreader/"$BUILD_DIR"/"${OUTF}.${format}" ~/public_html/"$DATEFILENAME"
+    ln -sf "$DATEFILENAME" ~/public_html/"${OUTF}.${format}"
+done
+
 echo "$DT" > ~/public_html/most_recent.txt
