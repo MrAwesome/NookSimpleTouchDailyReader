@@ -14,3 +14,4 @@ DATEFILENAME="${DT}.epub"
 
 cp rubyreader/"$BUILD_DIR"/"$OUTF" ~/public_html/"$DATEFILENAME"
 ln -sf "$DATEFILENAME" ~/public_html/"$OUTF"
+echo "$DT" > ~/public_html/most_recent.txt
