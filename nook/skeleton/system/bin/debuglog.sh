@@ -1,14 +1,24 @@
-#!/system/bin/sh
+#!/system/bin/ash
+
+set -euo pipefail
                 
-# NOTE: This file must be populated with your own static IP address for this to work!
+# NOTE: This file must be populated with your own static server IP address for this to work!
 ADDR=$(cat /system/bin/ADDR)
 
 NEWS_DIRECTORY="/dev/newsletters"
-CHECKER="most_recent.txt"
-                         
+CHECKER_FILENAME="most_recent.txt"
+
 [ -d "$NEWS_DIRECTORY" ] || mkdir "$NEWS_DIRECTORY"
-                                                   
-cd "$NEWS_DIRECTORY"                               
+cd "$NEWS_DIRECTORY"
                     
-#MOST_RECENT=$(wget "http://$ADDR/$CHECKER" -O -)
+if [[ -f "$CHECKER_FILENAME" ]]; then
+    OLD_CHECKER_FILE=$(find "$CHECKER_FILENAME" -mmin +10)
+    if [[ "$OLD_CHECKER_FILE" == "" ]]; then
+        exit 2
+    fi
+fi
+
+wget -q "http://$ADDR/$CHECKER_FILENAME" -O - > "$CHECKER_FILENAME"
+
+#MOST_RECENT=$()
 
