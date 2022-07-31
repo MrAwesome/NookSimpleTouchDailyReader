@@ -30,7 +30,7 @@ CHECKER_CONTENTS=$(wget -q "http://$ADDR/$CHECKER_FILENAME" -O - || echo "$CACHE
 
 echo "$CHECKER_CONTENTS" > "$CHECKER_FILENAME"
 
-for format in FORMATS; do
+for format in $FORMATS; do
     TARGET_FILENAME=$(cat $CHECKER_FILENAME).${format}
     if [[ ! -f "$TARGET_FILENAME" ]]; then
         wget -q "http://$ADDR/$TARGET_FILENAME"
