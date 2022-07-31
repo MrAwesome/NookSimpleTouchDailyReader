@@ -18,7 +18,10 @@ if [[ -f "$CHECKER_FILENAME" ]]; then
     fi
 fi
 
-wget -q "http://$ADDR/$CHECKER_FILENAME" -O - > "$CHECKER_FILENAME"
+CACHED_CHECKED=$(cat $CHECKER_FILENAME)
+
+CHECKER_CONTENTS=$(wget -q "http://$ADDR/$CHECKER_FILENAME" -O - || echo "$CACHED_CHECKED")
+echo "$CHECKER_CONTENTS" > "$CHECKER_FILENAME"
 
 TARGET_FILENAME=$(cat $CHECKER_FILENAME).epub
 if [[ ! -f "$TARGET_FILENAME" ]]; then
