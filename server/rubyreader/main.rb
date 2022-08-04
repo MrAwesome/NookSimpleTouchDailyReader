@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'net/http'
 require 'json'
+require 'cgi'
 
 builddir = "build/"
 
@@ -33,13 +34,24 @@ js["items"].each do |item|
   end
 
 
-  filename = i.to_s.rjust(3, "0") + ".html"
+  filename_base = i.to_s.rjust(3, "0")
+  filename_html = filename_base + ".html"
+  filename_txt = filename_base + ".txt"
+  filename_plaintext_html = filename_base + "_plaintext.html"
 
-  w = File.new(builddir + filename, "w")
-  #w.syswrite(articleresponse)
+  w = File.new(builddir + filename_html, "w")
   w.syswrite(html)
 
-  links.append("<div class='muhlink'><a href=#{filename}>#{title}</a></div>")
+  system("ebook-convert", builddir + filename_html, builddir + filename_txt)
+
+  html_plainhtml = File.read(builddir + filename_txt)
+  w_plainhtml = File.new(builddir + filename_plaintext_html, "w")
+
+  html_plainhtml = CGI.escapeHTML(html_plainhtml).gsub(/\n/, "\n<br />")
+  w_plainhtml.syswrite("<html><body><head></head>" + html_plainhtml + "</body></html>")
+
+  links.append("<div class='muhlink'><a href=#{filename_html}>#{title}</a></div>")
+  links.append("<div class='muhlink'><a href=#{filename_plaintext_html}>#{title} (plaintext)</a></div>")
 
   i = i + 1
 
