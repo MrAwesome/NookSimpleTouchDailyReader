@@ -18,6 +18,7 @@ i = 0
 #js = JSON.parse(data)
 
 links = []
+plain_links = []
 
 smallheader = "<html><body>"
 smallfooter = "</body></html>"
@@ -52,7 +53,7 @@ js["items"].each do |item|
   w_plainhtml.syswrite("<html><body><head></head>" + html_plainhtml + "</body></html>")
 
   links.append("<div class='muhlink'><a href=#{filename_html}>#{title}</a></div>")
-  links.append("<div class='muhlink'><a href=#{filename_plaintext_html}>#{title} (plaintext)</a></div>")
+  plain_links.append("<div class='muhlink'><a href=#{filename_plaintext_html}>#{title} (plaintext)</a></div>")
 
   i = i + 1
 
@@ -76,7 +77,11 @@ header = "<html>
 footer = "</p></body></html>"
 
 contents = header + links.join("\n") + footer
+plain_contents = header + plain_links.join("\n") + footer
 
 indexfile = File.new(builddir + "index.html", "w")
 indexfile.syswrite(contents)
+
+plain_indexfile = File.new(builddir + "index_plain.html", "w")
+plain_indexfile.syswrite(plain_contents)
 
