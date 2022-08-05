@@ -32,7 +32,9 @@ echo "$CHECKER_CONTENTS" > "$CHECKER_FILENAME"
 
 for format in $FORMATS; do
     TARGET_FILENAME=$(cat $CHECKER_FILENAME).${format}
+    TARGET_FILENAME_PLAIN=$(cat $CHECKER_FILENAME)_plain.${format}
     if [[ ! -f "$TARGET_FILENAME" ]]; then
+        wget -q "http://$ADDR/$TARGET_FILENAME_PLAIN" || true
         wget -q "http://$ADDR/$TARGET_FILENAME"
     fi
 done
